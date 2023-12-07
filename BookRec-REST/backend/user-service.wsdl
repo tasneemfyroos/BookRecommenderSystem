@@ -1,0 +1,186 @@
+<definitions
+  name="UserService"
+  targetNamespace="http://localhost:8001/user-service"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://localhost:8001/user-service"
+  >
+
+  <!-- Types definition -->
+  <types>
+    <schema xmlns:tns="http://localhost:8001/user-service"
+        targetNamespace="http://example.com/user-service">
+
+  <complexType name="Book">
+    <sequence>
+      <element name="id" type="int"/>
+      <element name="title" type="string"/>
+      <element name="author" type="string"/>
+      <element name="genre" type="string"/>
+    </sequence>
+  </complexType>
+
+  <complexType name="BooksArray">
+    <sequence>
+      <element name="book" type="tns:Book" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+  </complexType>
+
+</schema>
+  </types>
+
+  <!-- Message definitions -->
+  <message name="CheckUserRequest">
+    <part name="name" type="string"/>
+  </message>
+
+  <message name="CheckUserResponse">
+    <part name="success" type="boolean"/>
+    <part name="message" type="string"/>
+  </message>
+
+  <message name="AddUserRequest">
+    <part name="name" type="string"/>
+  </message>
+
+  <message name="AddUserResponse">
+    <part name="success" type="boolean"/>
+    <part name="message" type="string"/>
+  </message>
+
+  <message name="GetBooksResponse">
+    <part name="success" type="boolean"/>
+    <part name="books" type="tns:BooksArray"/>
+  </message>
+
+  <message name="AddNewBookRequest">
+    <part name="title" type="string"/>
+    <part name="author" type="string"/>
+    <part name="genre" type="string"/>
+  </message>
+
+  <message name="AddNewBookResponse">
+    <part name="success" type="boolean"/>
+    <part name="message" type="string"/>
+  </message>
+
+  <message name="GetBooksByGenreRequest">
+    <part name="genre" type="string"/>
+  </message>
+
+  <message name="GetBooksByGenreResponse">
+    <part name="success" type="boolean"/>
+    <part name="books" type="tns:BooksArray"/>
+  </message>
+
+  <message name="DeleteBookRequest">
+    <part name="id" type="string"/>
+  </message>
+
+  <message name="DeleteBookResponse">
+    <part name="success" type="boolean"/>
+    <part name="message" type="string"/>
+  </message>
+
+  <!-- Port Type definition -->
+  <portType name="UserPortType">
+    <operation name="CheckUser">
+      <input message="tns:CheckUserRequest"/>
+      <output message="tns:CheckUserResponse"/>
+    </operation>
+
+    <operation name="AddUser">
+      <input message="tns:AddUserRequest"/>
+      <output message="tns:AddUserResponse"/>
+    </operation>
+
+    <operation name="GetBooks">
+      <output message="tns:GetBooksResponse"/>
+    </operation>
+
+    <operation name="AddNewBook">
+      <input message="tns:AddNewBookRequest"/>
+      <output message="tns:AddNewBookResponse"/>
+    </operation>
+
+    <operation name="GetBooksByGenre">
+      <input message="tns:GetBooksByGenreRequest"/>
+      <output message="tns:GetBooksByGenreResponse"/>
+    </operation>
+
+    <operation name="DeleteBook">
+      <input message="tns:DeleteBookRequest"/>
+      <output message="tns:DeleteBookResponse"/>
+    </operation>
+    
+  </portType>
+
+  <!-- Binding definition -->
+  <binding name="UserBinding" type="tns:UserPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+    <operation name="CheckUser">
+      <soap:operation soapAction="http://localhost:8001/user-service/CheckUser"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="AddUser">
+      <soap:operation soapAction="http://localhost:8001/user-service/AddUser"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="GetBooks">
+      <soap:operation soapAction="http://localhost:8001/user-service/GetBooks"/>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="AddNewBook">
+      <soap:operation soapAction="http://localhost:8001/user-service/AddNewBook"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="GetBooksByGenre">
+      <soap:operation soapAction="http://localhost:8001/user-service/GetBooksByGenre"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+
+    <operation name="DeleteBook">
+      <soap:operation soapAction="http://localhost:8001/user-service/DeleteBook"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <!-- Service definition -->
+  <service name="UserService">
+    <port name="UserPort" binding="tns:UserBinding">
+      <soap:address location="http://localhost:8001/wsdl"/>
+    </port>
+  </service>
+</definitions>
